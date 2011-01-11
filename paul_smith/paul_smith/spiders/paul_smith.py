@@ -5,15 +5,15 @@ import random
 class PaulSmithSpider(BaseSpider):
 	domain_name = "paulsmith.co.uk"
 	start_urls = ["http://www.paulsmith.co.uk/paul-smith-jeans-253/category.html"]
-	
+
 	def parse(self, response):
 		hxs = HtmlXPathSelector(response)
-		sites = hxs.select('//div[@class="yui-u"]')
+		sites = hxs.select('//div[@class="product-group-1"]')
 		random.shuffle(sites)
 		for site in sites[:3]:
-			title = site.select('a/strong[@class="thumbnail-text"]/text()').extract()
+			title = site.select('h3[@class="desc"]/text()').extract()
 			hlink = site.select('a/@href').extract()
-			price = site.select('a/strong[@class="sale"]/text()').extract()
+			price = site.select('p[@class="price price-GBP"]/text()').extract()
 			image = site.select('a/img/@src').extract()
 
 			print '<div><div style="width:150px;float:left;text-align:center">\
