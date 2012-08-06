@@ -10,8 +10,10 @@ class PaulSmithSpider(BaseSpider):
 		hxs = HtmlXPathSelector(response)
 		sites = hxs.select('//div[@class="product-group-1"]')
 		random.shuffle(sites)
+		sites = sites.select('//div[@class="grid c160 product clear"]')
 		for site in sites[:3]:
-			title = site.select('h3[@class="desc"]/text()').extract()
+			subsite = site.select('.//div[@class="details"]')
+			title = subsite.select('h3[@class="desc"]/text()').extract()
 			hlink = site.select('a/@href').extract()
 			price = site.select('p[@class="price price-GBP"]/text()').extract()
 			image = site.select('a/img/@src').extract()
